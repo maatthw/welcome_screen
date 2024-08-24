@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Your Nail Technician</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tip-page.css">
+</head>
+<body>
+    <button id="backBtn">← Back</button>
+    <div class="container">
+        <h1>Tip Your Nail Technician</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search technician by name...">
+        </div>
+        <div class="technician-grid" id="technician-grid"> 
+        </div>
+    </div>
+
+    <div id="tipModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTechnicianName"></h2>
+            <div class="qr-container">
+                <div class="qr-code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=cashapp-placeholder" alt="CashApp QR">
+                    <p>CashApp</p>
+                </div>
+                <div class="qr-code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=zelle-placeholder" alt="Zelle QR">
+                    <p>Zelle</p>
+                </div>
+                <div class="qr-code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=venmo-placeholder" alt="Venmo QR">
+                    <p>Venmo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="tip-page.js"></script>
+</body>
+</html>

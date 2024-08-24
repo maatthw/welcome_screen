@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nail Salon Check-in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="check-in.css">
+</head>
+<body>
+    <div class="container">
+        <button id="backBtn" aria-label="Go Back">← Back</button>
+        <h1>Nail Salon Check-in</h1>
+        <div id="customerTypeSelection" class="button-container">
+            <button id="returningCustomer" aria-label="Returning Customer">Returning Customer</button>
+            <button id="newCustomer" aria-label="New Customer">New Customer</button>
+        </div>
+        <form id="checkInForm" style="display: none;">
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter your phone number">
+            </div>
+            <div id="newCustomerFields" style="display: none;">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth:</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                </div>
+            </div>
+            <button type="submit" id="checkInBtn">Check In</button>
+        </form>
+    </div>
+    <script src="check-in.js"></script>
+</body>
+</html>
