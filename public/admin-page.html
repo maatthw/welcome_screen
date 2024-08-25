@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Management</title>
+    <link rel="stylesheet" href="admin-page.css">
+</head>
+<body>
+    <header>
+        <h1>Tip Management</h1>
+        <button id="backBtn" class="btn btn-secondary">← Back to Tip Page</button>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2 id="formTitle">Add New Technician</h2>
+            <form id="addTechnicianForm">
+                <div class="form-group">
+                    <label for="technicianName">Technician Name:</label>
+                    <input type="text" id="technicianName" required>
+                </div>
+                <div class="form-group">
+                    <label for="technicianImage">Technician Image:</label>
+                    <div class="image-input-group">
+                        <input type="file" id="technicianImage" accept="image/*">
+                        <button type="button" id="removeTechnicianImage" class="btn btn-danger remove-image" style="display: none;">Remove</button>
+                    </div>
+                    <p id="currentTechnicianImage" class="current-image-info"></p>
+                </div>
+                <div class="form-group">
+                    <label for="cashappQR">CashApp QR Code:</label>
+                    <div class="image-input-group">
+                        <input type="file" id="cashappQR" accept="image/*">
+                        <button type="button" id="removeCashappQR" class="btn btn-danger remove-image" style="display: none;">Remove</button>
+                    </div>
+                    <p id="currentCashappQR" class="current-image-info"></p>
+                </div>
+                <div class="form-group">
+                    <label for="venmoQR">Venmo QR Code:</label>
+                    <div class="image-input-group">
+                        <input type="file" id="venmoQR" accept="image/*">
+                        <button type="button" id="removeVenmoQR" class="btn btn-danger remove-image" style="display: none;">Remove</button>
+                    </div>
+                    <p id="currentVenmoQR" class="current-image-info"></p>
+                </div>
+                <div class="form-group">
+                    <label for="zelleQR">Zelle QR Code:</label>
+                    <div class="image-input-group">
+                        <input type="file" id="zelleQR" accept="image/*">
+                        <button type="button" id="removeZelleQR" class="btn btn-danger remove-image" style="display: none;">Remove</button>
+                    </div>
+                    <p id="currentZelleQR" class="current-image-info"></p>
+                </div>
+                <div class="button-group">
+                    <button type="submit" id="submitBtn" class="btn btn-primary">Add Technician</button>
+                    <button type="button" id="cancelBtn" class="btn btn-secondary" style="display: none;">Cancel Editing</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Existing Technicians</h2>
+            <div id="technicianList" class="technician-grid"></div>
+        </div>
+    </div>
+
+    <script src="admin-page.js"></script>
+</body>
+</html>
