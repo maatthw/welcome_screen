@@ -8,7 +8,6 @@ function fetchTechnicians() {
     fetch('/technicians')
         .then(response => response.json())
         .then(data => {
-            // Sort technicians alphabetically by name
             const sortedTechnicians = data.technicians.sort((a, b) => 
                 a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
             );
@@ -19,7 +18,7 @@ function fetchTechnicians() {
 
 function displayTechnicians(technicians) {
     const technicianGrid = document.getElementById('technician-grid');
-    technicianGrid.innerHTML = '';  // Clear current list
+    technicianGrid.innerHTML = ''; 
 
     technicians.forEach(technician => {
         const card = createTechnicianCard(technician);
@@ -83,7 +82,7 @@ function filterTechnicians(searchTerm) {
     const technicianCards = document.querySelectorAll('.technician-card');
     technicianCards.forEach(card => {
         const technicianName = card.querySelector('.technician-name').textContent.toLowerCase();
-        if (technicianName.includes(searchTerm.toLowerCase())) {
+        if (technicianName.startsWith(searchTerm.toLowerCase())) {
             card.style.display = 'block';
         } else {
             card.style.display = 'none';
@@ -95,9 +94,6 @@ document.getElementById('settingsBtn').addEventListener('click', () => {
     window.location.href = 'admin-page.html';
 });
 
-document.getElementById('backBtn').addEventListener('click', () => {
-    window.location.href = 'index.html';
-});
 
 const closeBtn = document.getElementsByClassName('close')[0];
 closeBtn.onclick = function() {

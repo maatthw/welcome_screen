@@ -25,6 +25,12 @@ h1 {
     font-weight: 700;
 }
 
+p {
+   font-size: larger;
+   font-weight: 500;
+   font-family: 'Roboto', sans-serif;
+}
+
 .search-container {
     margin-bottom: 2rem;
     display: flex;
@@ -113,7 +119,7 @@ h1 {
     margin: 5% auto;
     padding: 20px;
     border-radius: 10px;
-    max-width: 800px;
+    max-width: 1000px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
@@ -143,12 +149,13 @@ h1 {
 }
 
 .qr-code img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
     margin-bottom: 10px;
     border-radius: 8px;
 }
+
 
 #backBtn, #settingsBtn {
     padding: 10px 20px;
