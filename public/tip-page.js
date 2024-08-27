@@ -29,18 +29,25 @@ function displayTechnicians(technicians) {
 function createTechnicianCard(technician) {
     const card = document.createElement('div');
     card.className = 'technician-card';
-    const imageUrl = technician.image || generatePastelColor();
-    const imageStyle = technician.image ? `background-image: url('${imageUrl}')` : `background-color: ${imageUrl}`;
+
+    const imageUrl = technician.image ? `/uploads/${technician.image.replace(/\\/g, '/')}` : generatePastelColor();
+    console.log(`Constructed image URL: ${imageUrl}`);
+    const imageStyle = technician.image ? `background-image: url('${imageUrl}'); background-size: cover;` : `background-color: ${imageUrl};`;
+    
     card.innerHTML = `
         <div class="technician-image" style="${imageStyle}"></div>
         <div class="technician-info">
             <h2 class="technician-name">${technician.name}</h2>
-            <button class="tip-button">Tip ${technician.name}</button>
         </div>
     `;
-    card.querySelector('.tip-button').addEventListener('click', () => openModal(technician));
+
+    card.addEventListener('click', () => openModal(technician));
+
     return card;
 }
+
+
+
 
 function openModal(technician) {
     const modal = document.getElementById('tipModal');

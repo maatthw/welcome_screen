@@ -89,6 +89,7 @@ app.post('/technicians', upload.fields([
         });
 });
 
+
 // Update a technician
 app.put('/technicians/:id', upload.fields([
     { name: 'technicianImage' },
