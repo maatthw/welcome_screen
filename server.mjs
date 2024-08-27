@@ -1,9 +1,15 @@
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+import express from 'express';
+import sqlite3 from 'sqlite3';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import open from 'open'; // Use import instead of require
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = 3000;
 
@@ -207,4 +213,5 @@ app.get('/', (req, res) => {
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+    open(`http://localhost:${PORT}`, { app: { name: 'chrome', arguments: ['--start-fullscreen'] } }); // Opens Chrome in fullscreen
 });
