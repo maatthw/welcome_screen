@@ -55,6 +55,13 @@ p {
     padding: 0 20px;
 }
 
+.instructions {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #555;
+}
+
 .technician-card {
     background-color: white;
     border-radius: 10px;
@@ -62,6 +69,9 @@ p {
     overflow: hidden;
     transition: transform 0.3s ease;
     cursor: pointer; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .technician-card:hover {
@@ -78,13 +88,17 @@ p {
 
 .technician-info {
     padding: 1rem;
-    text-align: center; 
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .technician-name {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    margin: 0;
+    margin: 0 0 10px 0;
     color: #333;
 }
 
@@ -113,29 +127,44 @@ p {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
+    position: relative;
     background-color: #fefefe;
-    margin: 5% auto;
+    margin: auto;
     padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 1200px;
+    max-height: 80vh;
+    overflow-y: auto;
     border-radius: 10px;
-    max-width: 1000px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
     color: #aaa;
-    float: right;
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.close:hover {
-    color: #000;
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
+
 
 .qr-container {
     display: flex;

@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import open from 'open'; // Use import instead of require
+import open from 'open'; 
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Initialize SQLite database
 const db = new sqlite3.Database('technicians.db', (err) => {
@@ -73,10 +73,10 @@ app.post('/technicians', upload.fields([
     { name: 'zelleQR' }
 ]), (req, res) => {
     const { name } = req.body;
-    const technicianImage = req.files['technicianImage'] ? req.files['technicianImage'][0].path : null;
-    const cashappQR = req.files['cashappQR'] ? req.files['cashappQR'][0].path : null;
-    const venmoQR = req.files['venmoQR'] ? req.files['venmoQR'][0].path : null;
-    const zelleQR = req.files['zelleQR'] ? req.files['zelleQR'][0].path : null;
+    const technicianImage = req.files['technicianImage'] ? `uploads/${req.files['technicianImage'][0].filename}` : null;
+    const cashappQR = req.files['cashappQR'] ? `uploads/${req.files['cashappQR'][0].filename}` : null;
+    const venmoQR = req.files['venmoQR'] ? `uploads/${req.files['venmoQR'][0].filename}` : null;
+    const zelleQR = req.files['zelleQR'] ? `uploads/${req.files['zelleQR'][0].filename}` : null;
 
     db.run('INSERT INTO technicians (name, image, cashapp_qr, venmo_qr, zelle_qr) VALUES (?, ?, ?, ?, ?)',
         [name, technicianImage, cashappQR, venmoQR, zelleQR],
@@ -89,7 +89,6 @@ app.post('/technicians', upload.fields([
         });
 });
 
-
 // Update a technician
 app.put('/technicians/:id', upload.fields([
     { name: 'technicianImage' },
@@ -100,7 +99,6 @@ app.put('/technicians/:id', upload.fields([
     const { id } = req.params;
     const { name } = req.body;
 
-    // First, get the current technician data
     db.get('SELECT * FROM technicians WHERE id = ?', [id], (err, row) => {
         if (err) {
             res.status(500).json({ error: err.message });
@@ -118,35 +116,35 @@ app.put('/technicians/:id', upload.fields([
 
         // Handle image updates or removals
         if (req.body.technicianImage === 'remove') {
-            removeFile(technicianImage);
+            if (technicianImage) removeFile(path.join(__dirname, technicianImage)); // Only remove if path is not null
             technicianImage = null;
         } else if (req.files['technicianImage']) {
-            removeFile(technicianImage);
-            technicianImage = req.files['technicianImage'][0].path;
+            if (technicianImage) removeFile(path.join(__dirname, technicianImage)); // Only remove if path is not null
+            technicianImage = `uploads/${req.files['technicianImage'][0].filename}`;
         }
 
         if (req.body.cashappQR === 'remove') {
-            removeFile(cashappQR);
+            if (cashappQR) removeFile(path.join(__dirname, cashappQR));
             cashappQR = null;
         } else if (req.files['cashappQR']) {
-            removeFile(cashappQR);
-            cashappQR = req.files['cashappQR'][0].path;
+            if (cashappQR) removeFile(path.join(__dirname, cashappQR));     
+            cashappQR = `uploads/${req.files['cashappQR'][0].filename}`;
         }
 
         if (req.body.venmoQR === 'remove') {
-            removeFile(venmoQR);
+            if (venmoQR) removeFile(path.join(__dirname, venmoQR));     
             venmoQR = null;
         } else if (req.files['venmoQR']) {
-            removeFile(venmoQR);
-            venmoQR = req.files['venmoQR'][0].path;
+            if (venmoQR) removeFile(path.join(__dirname, venmoQR));
+            venmoQR = `uploads/${req.files['venmoQR'][0].filename}`;
         }
 
         if (req.body.zelleQR === 'remove') {
-            removeFile(zelleQR);
+            if (zelleQR) removeFile(path.join(__dirname, zelleQR)); 
             zelleQR = null;
         } else if (req.files['zelleQR']) {
-            removeFile(zelleQR);
-            zelleQR = req.files['zelleQR'][0].path;
+            if (zelleQR) removeFile(path.join(__dirname, zelleQR)); 
+            zelleQR = `uploads/${req.files['zelleQR'][0].filename}`;
         }
 
         // Update the database
@@ -162,24 +160,22 @@ app.put('/technicians/:id', upload.fields([
     });
 });
 
+
 // Delete a technician
 app.delete('/technicians/:id', (req, res) => {
     const { id } = req.params;
-    
-    // First, get the technician data to remove associated files
+
     db.get('SELECT * FROM technicians WHERE id = ?', [id], (err, row) => {
         if (err) {
             res.status(500).json({ error: err.message });
             return;
         }
         if (row) {
-            removeFile(row.image);
-            removeFile(row.cashapp_qr);
-            removeFile(row.venmo_qr);
-            removeFile(row.zelle_qr);
+            if (row.image) removeFile(path.join(__dirname, row.image));
+            if (row.cashapp_qr) removeFile(path.join(__dirname, row.cashapp_qr));
+            if (row.venmo_qr) removeFile(path.join(__dirname, row.venmo_qr));
+            if (row.zelle_qr) removeFile(path.join(__dirname, row.zelle_qr));
         }
-
-        // Now delete the technician from the database
         db.run('DELETE FROM technicians WHERE id = ?', id, function (err) {
             if (err) {
                 res.status(500).json({ error: err.message });
@@ -189,6 +185,7 @@ app.delete('/technicians/:id', (req, res) => {
         });
     });
 });
+
 
 // Get a single technician by ID
 app.get('/technicians/:id', (req, res) => {
@@ -206,7 +203,6 @@ app.get('/technicians/:id', (req, res) => {
     });
 });
 
-// Serve index.html for the root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'tip-page.html'));
 });
@@ -214,5 +210,5 @@ app.get('/', (req, res) => {
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    open(`http://localhost:${PORT}`, { app: { name: 'chrome', arguments: ['--start-fullscreen'] } }); // Opens Chrome in fullscreen
+    open(`http://localhost:${PORT}`, { app: { name: 'chrome', arguments: ['--start-fullscreen'] } });
 });

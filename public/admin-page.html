@@ -15,6 +15,9 @@
     <div class="container">
         <div class="card">
             <h2 id="formTitle">Add New Technician</h2>
+            <div id="editingModeIndicator" style="display: none; color: #ff6347; font-weight: bold;">
+                Editing Technician
+            </div>
             <form id="addTechnicianForm">
                 <div class="form-group">
                     <label for="technicianName">Technician Name:</label>
@@ -23,33 +26,37 @@
                 <div class="form-group">
                     <label for="technicianImage">Technician Image:</label>
                     <div class="image-input-group">
-                        <input type="file" id="technicianImage" accept="image/*">
+                        <input type="file" id="technicianImage" accept="image/*" onchange="previewImage(event, 'technicianImagePreview')">
                         <button type="button" id="removeTechnicianImage" class="btn btn-danger remove-image" style="display: none;">Remove</button>
                     </div>
+                    <img id="technicianImagePreview" class="preview-image" style="display:none;">
                     <p id="currentTechnicianImage" class="current-image-info"></p>
                 </div>
                 <div class="form-group">
                     <label for="cashappQR">CashApp QR Code:</label>
                     <div class="image-input-group">
-                        <input type="file" id="cashappQR" accept="image/*">
+                        <input type="file" id="cashappQR" accept="image/*" onchange="previewImage(event, 'cashappQRPreview')">
                         <button type="button" id="removeCashappQR" class="btn btn-danger remove-image" style="display: none;">Remove</button>
                     </div>
+                    <img id="cashappQRPreview" class="preview-image" style="display:none;">
                     <p id="currentCashappQR" class="current-image-info"></p>
                 </div>
                 <div class="form-group">
                     <label for="venmoQR">Venmo QR Code:</label>
                     <div class="image-input-group">
-                        <input type="file" id="venmoQR" accept="image/*">
+                        <input type="file" id="venmoQR" accept="image/*" onchange="previewImage(event, 'venmoQRPreview')">
                         <button type="button" id="removeVenmoQR" class="btn btn-danger remove-image" style="display: none;">Remove</button>
                     </div>
+                    <img id="venmoQRPreview" class="preview-image" style="display:none;">
                     <p id="currentVenmoQR" class="current-image-info"></p>
                 </div>
                 <div class="form-group">
                     <label for="zelleQR">Zelle QR Code:</label>
                     <div class="image-input-group">
-                        <input type="file" id="zelleQR" accept="image/*">
+                        <input type="file" id="zelleQR" accept="image/*" onchange="previewImage(event, 'zelleQRPreview')">
                         <button type="button" id="removeZelleQR" class="btn btn-danger remove-image" style="display: none;">Remove</button>
                     </div>
+                    <img id="zelleQRPreview" class="preview-image" style="display:none;">
                     <p id="currentZelleQR" class="current-image-info"></p>
                 </div>
                 <div class="button-group">

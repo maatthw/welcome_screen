@@ -14,7 +14,6 @@ document.getElementById('addTechnicianForm').addEventListener('submit', function
     appendImageToFormData(formData, 'zelleQR');
 
     if (editMode) {
-        // Edit existing technician
         fetch(`/technicians/${editingTechnicianId}`, {
             method: 'PUT',
             body: formData,
@@ -27,7 +26,6 @@ document.getElementById('addTechnicianForm').addEventListener('submit', function
         })
         .catch(error => console.error('Error updating technician:', error));
     } else {
-        // Add new technician
         fetch('/technicians', {
             method: 'POST',
             body: formData,
@@ -59,15 +57,19 @@ function resetForm() {
     document.getElementById('submitBtn').textContent = "Add Technician";
     document.getElementById('formTitle').textContent = "Add New Technician";
     document.getElementById('cancelBtn').style.display = 'none';
-    
+    document.getElementById('editingModeIndicator').style.display = 'none';
+    highlightEditingTechnician(null);
+
     ['technicianImage', 'cashappQR', 'venmoQR', 'zelleQR'].forEach(fieldId => {
         const infoElement = document.getElementById(`current${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)}`);
         const removeButton = document.getElementById(`remove${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)}`);
         infoElement.textContent = '';
         infoElement.classList.remove('has-image');
         removeButton.style.display = 'none';
+        document.getElementById(`${fieldId}Preview`).style.display = 'none'; // Hide preview
     });
 }
+
 function editTechnician(id) {
     fetch(`/technicians/${id}`)
         .then(response => {
@@ -88,6 +90,8 @@ function editTechnician(id) {
             document.getElementById('submitBtn').textContent = "Update Technician";
             document.getElementById('formTitle').textContent = "Edit Technician";
             document.getElementById('cancelBtn').style.display = 'inline-block';
+            document.getElementById('editingModeIndicator').style.display = 'block';
+            highlightEditingTechnician(id);
         })
         .catch(error => console.error('Error fetching technician data for editing:', error));
 }
@@ -95,16 +99,21 @@ function editTechnician(id) {
 function updateImageInfo(fieldId, imagePath) {
     const infoElement = document.getElementById(`current${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)}`);
     const removeButton = document.getElementById(`remove${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)}`);
+    const previewElement = document.getElementById(`${fieldId}Preview`);
+    
     if (imagePath) {
         infoElement.textContent = "Image uploaded";
         infoElement.classList.add('has-image');
         removeButton.style.display = 'inline-block';
         currentImages[fieldId] = imagePath;
+        previewElement.src = `/${imagePath}`; // Correct path reference
+        previewElement.style.display = 'block';
     } else {
         infoElement.textContent = "No image uploaded";
         infoElement.classList.remove('has-image');
         removeButton.style.display = 'none';
         currentImages[fieldId] = null;
+        previewElement.style.display = 'none';
     }
     document.getElementById(fieldId).value = ''; // Clear file input
 }
@@ -113,7 +122,6 @@ function displayTechnicians() {
     fetch('/technicians')
         .then(response => response.json())
         .then(data => {
-            // Sort technicians alphabetically by name
             const sortedTechnicians = data.technicians.sort((a, b) => 
                 a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
             );
@@ -124,6 +132,7 @@ function displayTechnicians() {
             sortedTechnicians.forEach((technician) => {
                 const technicianCard = document.createElement('div');
                 technicianCard.className = 'technician-card';
+                technicianCard.dataset.id = technician.id;
                 technicianCard.innerHTML = `
                     <p>${technician.name}</p>
                     <div class="button-group">
@@ -138,7 +147,7 @@ function displayTechnicians() {
 }
 
 function removeTechnician(id) {
-    if (confirm('Are you sure you want to remove this technician?')) {
+    if (confirm('Are you sure you want to remove this technician? This action cannot be undone.')) {
         fetch(`/technicians/${id}`, {
             method: 'DELETE',
         })
@@ -151,6 +160,17 @@ function removeTechnician(id) {
     }
 }
 
+function highlightEditingTechnician(id) {
+    const cards = document.querySelectorAll('.technician-card');
+    cards.forEach(card => {
+        if (card.dataset.id == id) {
+            card.classList.add('active');
+        } else {
+            card.classList.remove('active');
+        }
+    });
+}
+
 ['technicianImage', 'cashappQR', 'venmoQR', 'zelleQR'].forEach(fieldId => {
     document.getElementById(`remove${fieldId.charAt(0).toUpperCase() + fieldId.slice(1)}`).addEventListener('click', function() {
         updateImageInfo(fieldId, null);
@@ -161,7 +181,19 @@ document.getElementById('backBtn').addEventListener('click', () => {
     window.location.href = 'tip-page.html';
 });
 
-document.getElementById('cancelBtn').addEventListener('click', resetForm);
+document.getElementById('cancelBtn').addEventListener('click', () => {
+    resetForm();
+    document.getElementById('editingModeIndicator').style.display = 'none';
+    highlightEditingTechnician(null);
+});
 
+function previewImage(event, previewId) {
+    const output = document.getElementById(previewId);
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.style.display = 'block';
+    output.onload = function() {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+}
 
 displayTechnicians();

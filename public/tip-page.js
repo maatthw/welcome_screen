@@ -30,8 +30,9 @@ function createTechnicianCard(technician) {
     const card = document.createElement('div');
     card.className = 'technician-card';
 
-    const imageUrl = technician.image ? `/uploads/${technician.image.replace(/\\/g, '/')}` : generatePastelColor();
+    const imageUrl = technician.image ? `${technician.image}` : generatePastelColor();
     console.log(`Constructed image URL: ${imageUrl}`);
+
     const imageStyle = technician.image ? `background-image: url('${imageUrl}'); background-size: cover;` : `background-color: ${imageUrl};`;
     
     card.innerHTML = `
@@ -45,7 +46,6 @@ function createTechnicianCard(technician) {
 
     return card;
 }
-
 
 
 
@@ -82,7 +82,7 @@ function openModal(technician) {
         `;
     }
 
-    modal.style.display = 'block';
+    modal.style.display = 'flex';
 }
 
 function filterTechnicians(searchTerm) {
@@ -118,5 +118,32 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
     filterTechnicians(e.target.value);
 });
 
-// Initial fetch of technicians
+
+
+function closeModal() {
+    const modal = document.getElementById('tipModal');
+    modal.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('tipModal');
+    const closeBtn = document.querySelector('.close');
+
+    // Ensure the modal is hidden by default
+    modal.style.display = 'none';
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    fetchTechnicians();
+});
+
+
 fetchTechnicians();

@@ -90,7 +90,7 @@ input[type="file"] {
 .technician-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 15px;
 }
 
 .technician-card {
@@ -99,6 +99,10 @@ input[type="file"] {
     padding: 15px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.technician-card.active {
+    border: 2px solid #4CAF50;
 }
 
 .technician-card p {
@@ -153,6 +157,15 @@ input[type="file"] {
 .remove-image {
     padding: 5px 10px;
     font-size: 14px;
+}
+
+.preview-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;
 }
 
 @media (max-width: 768px) {
