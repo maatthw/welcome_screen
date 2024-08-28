@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
+const correctAccessCode = '1234';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -87,6 +88,15 @@ app.post('/technicians', upload.fields([
             }
             res.json({ technicianId: this.lastID });
         });
+});
+
+app.post('/verify-access-code', (req, res) => {
+    const { code } = req.body;
+    if (code === correctAccessCode) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
 });
 
 // Update a technician

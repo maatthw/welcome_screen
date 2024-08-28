@@ -9,11 +9,8 @@
 </head>
 <body>
     <button id="settingsBtn">Settings</button>
+    <h1 id="tap-tech">Tap A Technician To Tip</h1>
     <div class="container">
-        <h1>Tap A Technician To Tip</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search technicians...">
-        </div>
         <div class="technician-grid" id="technician-grid"> 
         </div>
     </div>
@@ -35,6 +32,21 @@
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=venmo-placeholder" alt="Venmo QR">
                     <p>Venmo</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="keypadModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Enter Access Code</h2>
+            <div id="keypad" class="keypad">
+            </div>
+            <div>
+                <input type="password" id="accessCode" maxlength="4" readonly>
+            </div>
+            <div>
+                <button id="enterCodeBtn" class="btn btn-primary">Enter</button>
+                <button id="clearCodeBtn" class="btn btn-secondary">Clear</button>
             </div>
         </div>
     </div>

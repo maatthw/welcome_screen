@@ -1,4 +1,3 @@
-
 function generatePastelColor() {
     const hue = Math.floor(Math.random() * 360);
     return `hsl(${hue}, 70%, 80%)`;
@@ -47,11 +46,12 @@ function createTechnicianCard(technician) {
     return card;
 }
 
-
-
 function openModal(technician) {
     const modal = document.getElementById('tipModal');
     const modalTechnicianName = document.getElementById('modalTechnicianName');
+    const tipLine = document.getElementById('tap-tech');
+
+    tipLine.style.display = 'none';
     modalTechnicianName.textContent = `Tip ${technician.name}`;
     
     const qrContainer = document.querySelector('.qr-container');
@@ -97,32 +97,26 @@ function filterTechnicians(searchTerm) {
     });
 }
 
-document.getElementById('settingsBtn').addEventListener('click', () => {
-    window.location.href = 'admin-page.html';
+document.getElementById('settingsBtn').addEventListener('click', (event) => {
+    event.preventDefault(); 
+    openKeypadModal(); 
 });
 
+function openKeypadModal() {
+    const modal = document.getElementById('keypadModal');
+    modal.style.display = 'flex';  // Show the modal
+}
 
-const closeBtn = document.getElementsByClassName('close')[0];
-closeBtn.onclick = function() {
-    modal.style.display = 'none';
-};
-
-window.onclick = function(event) {
-    const modal = document.getElementById('tipModal');
-    if (event.target == modal) {
-        modal.style.display = 'none';
-    }
-};
-
-document.getElementById('searchInput').addEventListener('input', function(e) {
-    filterTechnicians(e.target.value);
-});
-
-
+function closeKeypadModal() {
+    const modal = document.getElementById('keypadModal');
+    modal.style.display = 'none';  // Hide the modal
+}
 
 function closeModal() {
     const modal = document.getElementById('tipModal');
+    const tipLine = document.getElementById('tap-tech');
     modal.style.display = 'none';
+    tipLine.style.display = 'block';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -145,5 +139,69 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchTechnicians();
 });
 
+function createKeypad() {
+    const keypad = document.getElementById('keypad');
+    keypad.innerHTML = '';  // Clear existing buttons
+
+    for (let i = 0; i <= 9; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = 'keypad-btn';
+        btn.addEventListener('click', () => addDigitToCode(i));
+        keypad.appendChild(btn);
+    }
+}
+
+function addDigitToCode(digit) {
+    const accessCodeInput = document.getElementById('accessCode');
+    if (accessCodeInput.value.length < 4) {
+        accessCodeInput.value += digit;  // Append digit to access code
+    }
+}
+
+function clearCode() {
+    document.getElementById('accessCode').value = '';
+}
+
+document.getElementById('clearCodeBtn').addEventListener('click', clearCode);
+
+function verifyAccessCode(code) {
+    fetch('/verify-access-code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ code })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = 'admin-page.html';  // Redirect if code is correct
+        } else {
+            alert('Incorrect code. Please try again.');
+            clearCode();  // Clear the input if the code is wrong
+        }
+    })
+    .catch(error => console.error('Error verifying access code:', error));
+}
+
+document.getElementById('enterCodeBtn').addEventListener('click', () => {
+    const accessCode = document.getElementById('accessCode').value;
+    if (accessCode.length === 4) {
+        verifyAccessCode(accessCode);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    createKeypad();
+    closeKeypadModal(); 
+});
+
+window.onclick = function(event) {
+    const modal = document.getElementById('keypadModal');
+    if (event.target === modal) {
+        closeKeypadModal();
+    }
+};
 
 fetchTechnicians();

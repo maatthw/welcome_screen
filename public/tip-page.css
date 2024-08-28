@@ -51,8 +51,8 @@ p {
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     max-width: 1200px;
-    margin: 0 auto;
     padding: 0 20px;
+    margin-top: 50px;
 }
 
 .instructions {
@@ -216,6 +216,80 @@ p {
     font-weight: bold;
     margin-bottom: 20px;
 }
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.keypad-btn {
+    font-size: 20px;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.keypad-btn:hover {
+    background-color: #45a049;
+}
+
+input#accessCode {
+    width: 60%;
+    font-size: 24px;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    letter-spacing: 8px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.btn-secondary {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #e53935;
+}
+
+#tap-tech {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    left: 50%;
+    top: 3%;
+}
+
 
 /* Responsive design */
 @media (max-width: 1200px) {
