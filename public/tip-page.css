@@ -210,6 +210,13 @@ p {
     background-color: #fb8c00;
 }
 
+#modalTechnicianName {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 /* Responsive design */
 @media (max-width: 1200px) {
     .technician-grid {
