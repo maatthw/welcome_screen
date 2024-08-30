@@ -83,6 +83,8 @@ function openModal(technician) {
     }
 
     modal.style.display = 'flex';
+
+    setTimeout(closeModal, 30000); // 30000 milliseconds = 30 seconds
 }
 
 function filterTechnicians(searchTerm) {
