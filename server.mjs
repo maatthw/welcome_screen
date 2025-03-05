@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
-const correctAccessCode = '1234';
+const correctAccessCode = '7768';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
